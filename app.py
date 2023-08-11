@@ -7,8 +7,14 @@ class DrawInfo:
     WHITE = 255, 255, 255
     GREEN = 0, 255, 0
     RED = 255, 0, 0 
-    GREY = 128, 128, 128
+
     BACKGROUND_COLOR = WHITE
+
+    GRADIENTS = [
+        (0, 250, 250),
+        (0, 200, 200),
+        (0, 150, 150)
+    ]
 
     SIDE_PAD = 100
     TOP_PAD = 150
@@ -22,7 +28,7 @@ class DrawInfo:
         self.set_list(list)
 
     def set_list(self, list):
-        self.lst = list
+        self.list = list
         self.max_val = max(list)
         self.min_val = min(list)
 
@@ -30,6 +36,23 @@ class DrawInfo:
         self.block_height = round((self.height - self.TOP_PAD) / (self.max_val - self.min_val))
         self.start_x = self.SIDE_PAD // 2
 
+
+def draw(draw_info):
+    draw_info.window.fill(draw_info.BACKGROUND_COLOR)
+    draw_list(draw_info)
+    pygame.display.update()
+
+
+def draw_list(draw_info):
+    list = draw_info.list
+    
+    for i, val in enumerate(list):
+        x = draw_info.start_x + i * draw_info.block_width
+        y = draw_info.height - (val - draw_info.min_val) * draw_info.block_height # subtract from height because y coordinate 0 is at the top
+
+        color = draw_info.GRADIENTS[i % 3] # rotate between gradients to distinguish different elements
+
+        pygame.draw.rect(draw_info.window, color, (x, y, draw_info.block_width, draw_info.height))
 
 def generate_starting_list(n, min_val, max_val):
     list = []
@@ -51,6 +74,7 @@ def main():
 
     while run:
         clock.tick(60)
+        draw(draw_info)
 
         pygame.display.update()
 
