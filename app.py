@@ -16,6 +16,8 @@ class DrawInfo:
         (0, 150, 150)
     ]
 
+    FONT = pygame.font.SysFont('cambriacambriamath', 28)
+    LARGE_FONT = pygame.font.SysFont('cambriacambriamath', 40)
     SIDE_PAD = 100
     TOP_PAD = 150
 
@@ -39,6 +41,14 @@ class DrawInfo:
 
 def draw(draw_info):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
+    controls = draw_info.FONT.render("(R) - Reset | (Space) - Start | (A) - Ascending | (D) - Descending", 1, draw_info.BLACK)
+    draw_info.window.blit(controls, (draw_info.width/2 - controls.get_width()/2 , 5))
+ 
+    sorting = draw_info.FONT.render("(I) - Insertion Sort | (B) - Bubble Sort", 1, draw_info.BLACK)
+    draw_info.window.blit(sorting, (draw_info.width/2 - sorting.get_width()/2 , 35))
+ 
+
+
     draw_list(draw_info)
     pygame.display.update()
 
@@ -71,6 +81,8 @@ def main():
 
     list = generate_starting_list(n, min_val, max_val)
     draw_info = DrawInfo(800, 600, list)
+    sorting = False
+    ascending = True
 
     while run:
         clock.tick(60)
@@ -86,6 +98,13 @@ def main():
             if event.key == pygame.K_r:
                 list = generate_starting_list(n, min_val, max_val)
                 draw_info.set_list(list)
+                sorting = False
+            elif event.key == pygame.K_SPACE and sorting == False:
+                sorting = True
+            elif event.key == pygame.K_a and sorting == False:
+                ascending = True
+            elif event.key == pygame.K_d and sorting == False:
+                ascending = False
 
 
     pygame.quit()
