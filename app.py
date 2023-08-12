@@ -65,7 +65,7 @@ def main():
     run = True
     clock = pygame.time.Clock()
     
-    n = 50
+    n = 100
     min_val = 0
     max_val = 100
 
@@ -81,7 +81,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
- 
+            if event.type != pygame.KEYDOWN:
+                continue
+            if event.key == pygame.K_r:
+                list = generate_starting_list(n, min_val, max_val)
+                draw_info.set_list(list)
+
+
     pygame.quit()
 
 if __name__ == "__main__":
