@@ -103,6 +103,26 @@ def bubblesort(draw_info, ascending=True):
                 yield True
     return list
 
+def insertionsort(draw_info, ascending=True):
+    list = draw_info.list
+    for i in range(1, len(list)):
+        current = list[i]
+        
+        while True:
+            ascending_sort = i > 0 and list[i - 1] > current and ascending
+            descending_sort = i > 0 and list[i - 1] < current and not ascending
+
+            if not ascending_sort and not descending_sort:
+                break
+
+            list[i] = list[i - 1]
+            i -= 1
+            list[i] = current
+            draw_list(draw_info, {i: draw_info.GREEN, i - 1: draw_info.BLACK}, True)
+            yield True
+    
+    return list
+
 
 def main():
     run = True
